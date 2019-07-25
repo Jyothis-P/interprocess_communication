@@ -22,7 +22,7 @@ def process_2():
             x = int(s.recv(1024).decode("utf-8"))
             y = int(s.recv(1024).decode("utf-8"))
             print("received elements\n")
-            sum_ = sum_ + x + y
+            sum_ = sum_ + x * y
         print("sending result to process 1 for elements received\n")
         s.send(bytes(str(sum_),"utf-8"))
         time.sleep(2)
