@@ -16,15 +16,26 @@ def process_2():
     print("recieved row2\n")
     c2 = int(s.recv(1024).decode("utf-8"))
     print("recieved col2\n")
-    for i in range(r1):
-        sum_ = 0
-        for j in range(c2):
+    X = []
+    Y = []
+    R = []
+    for i in range(r1*c1):
             x = int(s.recv(1024).decode("utf-8"))
+            X.append(x)
+    print("Received matrix 1\n")
+    X = numpy.reshape(X,(r1,c1))
+    for i in range(r2*c2):
             y = int(s.recv(1024).decode("utf-8"))
-            print("received elements\n")
-            sum_ = sum_ + x * y
-        print("sending result to process 1 for elements received\n")
-        s.send(bytes(str(sum_),"utf-8"))
-        time.sleep(2)
+            Y.append(y)
+    print("Received matrix 2\n")
+    Y = numpy.reshape(Y,(r2,c2))
+    print("Finding their product\n")
+    R = numpy.dot(X,Y)
+    print(R)
+    print("sending resultant matrix to process 1\n")
+    for i in range(r1):
+        for j in range(c2):
+            s.send(bytes(str(R[i][j]),"utf-8"))
+            time.sleep(2)
 
 process_2()
